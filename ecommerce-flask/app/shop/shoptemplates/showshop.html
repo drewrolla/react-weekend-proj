@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container justify-content-center">
+        {% for i in items %}
+            <a class="mx-auto card text-decoration-none text-dark" style="width: 18rem;" href="{{ url_for('shop.getSingleItem', items_id=i.id) }}">
+                <img src="{{ i.img_url }}" class="card-img-top" alt="{{ i.title }}">
+                <div class="card-body">
+                <h5 class="card-title">{{ i.title }}</h5>
+                <p class="card-text">{{ i.caption }}</p>
+                <small>
+                    {{ moment(i.date_created).fromNow() }}
+                </small>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

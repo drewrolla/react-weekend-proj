@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container justify-content-center">
+    <!-- <a href="/shop/sell" class="btn btn-primary">Sell Merch</a> -->
+    <div class="row">
         {% for i in items %}
-            <a class="mx-auto card text-decoration-none text-dark" style="width: 18rem;" href="{{ url_for('shop.getSingleItem', items_id=i.id) }}">
-                <img src="{{ i.img_url }}" class="card-img-top" alt="{{ i.title }}">
+            <a class="card text-decoration-none text-dark" style="width: 18rem;" href="{{ url_for('shop.viewItem', item_id=i.id) }}">
+                <img src="{{ i.img_url }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">{{ i.title }}</h5>
-                <p class="card-text">{{ i.caption }}</p>
-                <small>
-                    {{ moment(i.date_created).fromNow() }}
-                </small>
+                <h5 class="card-title">Item {{ i.id }}</h5>
+                <p class="card-text">Name: {{ i.name }}</p>
+                <p class="card-text">Price: ${{ i.price }}</p>
+                <p class="card-text">Description: {{ i.description }}</p>
+                <a href="{{ url_for('shop.addToCart', name=i.name) }}" class="btn btn-success">Add to Cart</a>
                 </div>
             </a>
         {% endfor %}

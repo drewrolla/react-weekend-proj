@@ -4,6 +4,7 @@ import Items from './components/Items';
 import Nav from './components/Nav';
 import Home from './views/Home';
 import Login from './views/Login';
+import PostItem from './views/PostItem';
 import Shop from './views/Shop';
 import Signup from './views/Signup';
 import SingleItem from './views/SingleItem';
@@ -35,6 +36,7 @@ export default class App extends Component {
             <Route path='/shop' element={<Shop />} />
             <Route path='/singleitem' element={<SingleItem />} />
             <Route path='/items' element={<Items />} />
+            <Route path='/postitem' element={<PostItem />} />
           </Routes>
         </div>
       </BrowserRouter>

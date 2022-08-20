@@ -8,6 +8,7 @@ export default class Items extends Component {
         <img src={i.img_url} className="card-img-top" alt="..."/>
         <div className="card-body">
           <h5 className="card-title">{i.title}</h5>
+          <p>{i.price}</p>
           <p>{i.author}</p>
           <p className="card-text">{i.caption}</p>
         </div>

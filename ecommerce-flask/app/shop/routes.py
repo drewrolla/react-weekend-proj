@@ -8,26 +8,27 @@ from app.models import Items, db, User
 shop = Blueprint('shop', __name__, template_folder='shoptemplates')
 
 
-# @shop.route('/items/create', methods=["GET","POST"])
-# @login_required
-# def createItem():
-#     form = ItemForm()
-#     if request.method == "POST":
-#         if form.validate():
-#             title = form.title.data
-#             img_url = form.img_url.data
-#             caption = form.caption.data
+@shop.route('/items/create', methods=["GET","POST"])
+@login_required
+def createItem():
+    form = ItemForm()
+    if request.method == "POST":
+        if form.validate():
+            title = form.title.data
+            price = form.price.data
+            description = form.description.data
+            img_url = form.img_url.data
 
-#             item = Items(title, img_url, caption, current_user.id)
-#             item.save()
-#             flash('Successfully created item.', 'success')
-#         else:
-#             flash('Invalid form. Please fill out the form correctly.', 'danger')
-#     return render_template('createitem.html', form=form)
+            item = Items(title, price, description, img_url)
+            item.save()
+            flash('Successfully created item.', 'success')
+        else:
+            flash('Invalid form. Please fill out the form correctly.', 'danger')
+    return render_template('createitem.html', form=form)
 
 @shop.route('/items')
 def getAllItems():
-    items = Items.query.order_by(Items.date_created.desc()).all()
+    items = Items.query.all
     return render_template('showshop.html', items=items)
 
 
@@ -50,9 +51,9 @@ def getSingleItem(item_id):
 #         if form.validate():
 #             title = form.title.data
 #             img_url = form.img_url.data
-#             caption = form.caption.data
+#             description = form.description.data
 
-#             item.updateItemInfo(title,img_url,caption)
+#             item.updateItemInfo(title,img_url,description)
 #             item.saveUpdates()
 #             flash('Successfully updated item.', 'success')
 #             return redirect(url_for('shop.getSingleItem', item_id=item_id))
@@ -132,10 +133,11 @@ def createItemAPI(user):
     data = request.json # this is coming from POST request Body
 
     title = data['title']
-    caption = data['caption']
+    price = data['price']
+    description = data['description']
     img_url = data['imgUrl']
 
-    item = Items(title, img_url, caption, user.id)
+    item = Items(title, price, description, img_url, user.id)
     item.save()
 
     return {
@@ -158,10 +160,11 @@ def updateItemAPI(user):
         }
 
     title = data['title']
-    caption = data['caption']
+    price = data['price']
+    description = data['description']
     img_url = data['imgUrl']
 
-    item.updateItemInfo(title, img_url, caption)
+    item.updateItemInfo(title, price, description, img_url)
     item.saveUpdates()
 
     return {

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form class="container" method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.title(class='form-control', placeholder='Title', autocomplete='off') }}
+        {{ form.price(class='form-control', placeholder='Price', autocomplete='off') }}
+        {{ form.description(class='form-control', placeholder='Description', autocomplete='off') }}
+        {{ form.img_url(class='form-control', placeholder='Image Url', autocomplete='off') }}
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+{% endblock %}

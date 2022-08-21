@@ -7,37 +7,10 @@ from app.models import Items, db, User
 
 shop = Blueprint('shop', __name__, template_folder='shoptemplates')
 
-
-@shop.route('/items/create', methods=["GET","POST"])
-@login_required
-def createItem():
-    form = ItemForm()
-    if request.method == "POST":
-        if form.validate():
-            title = form.title.data
-            price = form.price.data
-            description = form.description.data
-            img_url = form.img_url.data
-
-            item = Items(title, price, description, img_url)
-            item.save()
-            flash('Successfully created item.', 'success')
-        else:
-            flash('Invalid form. Please fill out the form correctly.', 'danger')
-    return render_template('createitem.html', form=form)
-
-@shop.route('/items')
-def getAllItems():
-    items = Items.query.all
-    return render_template('showshop.html', items=items)
-
-
-@shop.route('/items/<int:item_id>')
-def getSingleItem(item_id):
-    item = Items.query.get(item_id)
-    # item = Items.query.filter_by(id=item_id).first()
-    return render_template('singleitem.html', item=item)
-
+@shop.route('/shop', methods=["GET", "POST"])
+def goToShop():
+    item = Items.query.all()
+    return render_template('showshop.html', item=item)
 
 @shop.route('/cart', methods=["GET", "POST"])
 def goToCart():
@@ -48,7 +21,6 @@ def goToCart():
         total_price += int(each.price)
     total = len(cart) # shows total amount of items in cart
     return render_template('cart.html', cart=cart, total=total, total_price=total_price)
-
 
 @shop.route('/add/<string:name>')
 @login_required
@@ -78,6 +50,31 @@ def emptyCart():
             db.session.commit()
     flash('You have no items in your cart.', 'success')
     return redirect(url_for('shop.goToCart'))
+
+# look at one product in particular
+@shop.route('/shop/<int:items_id>')
+def viewItem(items_id):
+    item = Items.query.get(items_id)
+    return render_template('singleitem.html', item=item)
+
+@shop.route('/items/create', methods=["GET","POST"])
+@login_required
+def createItem():
+    form = ItemForm()
+    if request.method == "POST":
+        if form.validate():
+            title = form.title.data
+            price = form.price.data
+            description = form.description.data
+            img_url = form.img_url.data
+
+            item = Items(title, price, description, img_url)
+            item.saveItems()
+            flash('Successfully created item.', 'success')
+        else:
+            flash('Invalid form. Please fill out the form correctly.', 'danger')
+    return render_template('createitem.html', form=form)
+
 
 
 # ################# API ROUTES #####################

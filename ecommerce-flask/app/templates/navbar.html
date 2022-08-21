@@ -11,10 +11,13 @@
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('shop.getAllItems') }}">Feed</a>
+            <a class="nav-link active" aria-current="page" href="{{ url_for('shop.goToShop') }}">Feed</a>
           </li>
           {% if current_user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="/items/create">List item for sale</a></li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/cart">Your Cart</a>
+            </li>
           {% else %}
           {% endif %}
           <li class="nav-item dropdown">

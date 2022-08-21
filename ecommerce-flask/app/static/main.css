@@ -1,5 +1,7 @@
 body {
     background: rgb(57, 57, 57);
+    justify-content: center;
+    color: white;
 }
 
 a.navbar-brand {

@@ -8,7 +8,7 @@ db = SQLAlchemy()
 finsta_shop = db.Table('finsta_shop',
     db.Column('cart_id', db.Integer, primary_key=True),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('item_id', db.Integer, db.ForeignKey('item.id'))
+    db.Column('items_id', db.Integer, db.ForeignKey('items.id'))
 )
 
 class User(db.Model, UserMixin):
@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
     apitoken = db.Column(db.String, default=None, nullable=True)
-    cart = db.relationship("Item",
+    cart = db.relationship("Items",
         secondary = finsta_shop,
         backref = 'buyers',
         lazy = 'dynamic'
@@ -54,7 +54,7 @@ class Items(db.Model):
         self.description = description
         self.img_url = img_url
 
-    def saveMerch(self):
+    def saveItems(self):
         db.session.add(self)
         db.session.commit()
 

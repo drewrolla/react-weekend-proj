@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
-finsta_shop = db.Table('finsta_shop',
+fake_shop = db.Table('fake_shop',
     db.Column('cart_id', db.Integer, primary_key=True),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('items_id', db.Integer, db.ForeignKey('items.id'))
@@ -18,8 +18,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(250), nullable=False)
     apitoken = db.Column(db.String, default=None, nullable=True)
     cart = db.relationship("Items",
-        secondary = finsta_shop,
-        backref = 'buyers',
+        secondary = fake_shop,
+        backref = 'buyer',
         lazy = 'dynamic'
     )
 
@@ -68,4 +68,27 @@ class Items(db.Model):
             'description': self.description,
             'img_url': self.img_url,
             'user_id': self.user_id
+        }
+
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    items_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+
+    def __init__(self, user_id, items_id):
+        self.user_id = user_id
+        self.items_id = items_id
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def to_dict(self):
+        return {
+            'user_id': self.user_id,
+            'items_id': self.items_id
         }

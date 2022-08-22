@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Items from './components/Items';
 import Nav from './components/Nav';
+import Cart from './views/Cart';
 import Home from './views/Home';
 import Login from './views/Login';
 import PostItem from './views/PostItem';
@@ -33,10 +34,11 @@ export default class App extends Component {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login logMeIn={this.logMeIn}/>} />
             <Route path='/signup' element={<Signup />} />
-            <Route path='/shop' element={<Shop />} />
-            <Route path='/items/:itemsId' element={<SingleItem />} />
-            <Route path='/items' element={<Items />} />
+            <Route path='/shop' element={<Shop user={this.state.user} />} />
+            <Route path='/items/:itemsId' element={<SingleItem user={this.state.user} />} />
+            <Route path='/items' element={<Items user={this.state.user} />} />
             <Route path='/items/create' element={<PostItem user={this.state.user} />} />
+            <Route path='/cart' element={<Cart user={this.state.user} />} />
           </Routes>
         </div>
       </BrowserRouter>

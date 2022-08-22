@@ -25,6 +25,9 @@ export default class Nav extends Component {
                 <Link className="nav-link" to="/shop">Shop</Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/cart">Cart</Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/items/create">Post Item</Link>
               </li>
               <li className="nav-item dropdown">

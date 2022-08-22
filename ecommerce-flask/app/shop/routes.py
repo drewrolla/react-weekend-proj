@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, url_for, flash
 from flask_login import current_user, login_required
 from ..apiauthhelper import token_required
 from app.shop.forms import ItemForm
-from app.models import Items, db, User
+from app.models import Items, User, db, Cart
 
 
 shop = Blueprint('shop', __name__, template_folder='shoptemplates')
@@ -114,3 +114,66 @@ def getSingleItemsAPI(items_id):
             'status': 'not ok',
             'message': f"An item with the id: {items_id} does not exist."
         }
+
+@shop.route('/api/cart')
+def getCartItemsAPI(user):
+    cart = Cart.query.filter_by(user_id=user.id).all()
+    print(cart)
+
+    incart = [c.to_dict() for c in cart]
+    items = []
+    total = 0
+    for each in cart:
+        item = Items.query.get(each.items_id)
+        items.append(item)
+    incart = [i.to_dict() for i in items]
+    if incart:
+        return {
+            'status': 'ok',
+            'total_amount': len(cart),
+            'items': incart
+        }
+
+
+@shop.route('/api/cart/add', methods=["POST"])
+@token_required
+def addToCartAPI(user):
+    data = request.json
+
+    title = data['title']
+    items = Items.query.filter_by(title=title).first()
+
+    incart = Cart(items.id, user.id)
+    incart.save()
+
+    return {
+        'status': 'ok',
+        'message': 'item added to cart'
+    }
+    
+
+@shop.route('/api/cart/remove', methods=["POST"])
+def removeFromCartAPI(user):
+    data = request.json
+    title = data['title']
+
+    items = Items.query.filter_by(title=title).first()
+    incart = Cart.query.filter_by(user_idi=user.id, items_id=items.id).first()
+    incart.delete()
+
+    return {
+        'status': 'ok',
+        'message': "Item removed from cart."
+    }
+
+
+@shop.route('/api/cart/removeall')
+def emptyCartAPI(user):
+    incart = Cart.query.filter_by(user_id=user.id).all()
+    for i in incart:
+        i.delete()
+
+    return {
+        'status': 'ok',
+        'message': "Cart emptied."
+    }

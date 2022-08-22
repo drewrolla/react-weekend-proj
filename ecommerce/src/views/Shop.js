@@ -26,7 +26,7 @@ export default class Shop extends Component {
 
   render() {
     return (
-      <div>
+      <div className='items'>
         {this.showItems()}
       </div>
     )

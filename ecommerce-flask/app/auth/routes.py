@@ -118,7 +118,7 @@ def apiLogMeIn():
             return {
                 'status': 'ok',
                 'message': "Login successful",
-                'data':  user.to_dict()
+                'data': user.to_dict()
             }
         return {
             'status': 'not ok',

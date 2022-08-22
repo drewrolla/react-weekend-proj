@@ -47,12 +47,14 @@ class Items(db.Model):
     price = db.Column(db.Integer)
     description = db.Column(db.String)
     img_url = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, name, price, description, img_url):
+    def __init__(self, name, price, description, img_url, user_id):
         self.name = name
         self.price = price
         self.description = description
         self.img_url = img_url
+        self.user_id = user_id
 
     def saveItems(self):
         db.session.add(self)
@@ -64,5 +66,6 @@ class Items(db.Model):
             'name': self.name,
             'price': self.price,
             'description': self.description,
-            'img_url': self.img_url
+            'img_url': self.img_url,
+            'user_id': self.user_id
         }

@@ -75,85 +75,42 @@ def createItem():
             flash('Invalid form. Please fill out the form correctly.', 'danger')
     return render_template('createitem.html', form=form)
 
+###### API ROUTE ######
+@shop.route('/api/items/create', methods=["POST"])
+@token_required
+def createItemsAPI(user):
+    data = request.json
+    
+    title = data['title']
+    price = data['price']
+    description = data['description']
+    imgUrl = data['imgUrl']
 
+    item = Items(title, price, description, imgUrl, user.id)
+    item.saveItems()
 
-# ################# API ROUTES #####################
-# @shop.route('/api/items')
-# def getAllItemsAPI():
-#     # args = request.args
-#     # pin = args.get('pin')
-#     # print(pin, type(pin))
-#     # if pin == '1234':
+    return {
+        'status': 'ok',
+        'message': "Item listed successfully."
+    }
 
-#         items = Items.query.order_by(Items.date_created.desc()).all()
+@shop.route('/api/items')
+def getAllItemsAPI():
+    items = Items.query.all()
+    my_items = [i.to_dict() for i in items]
+    return {'status': 'ok', 'total_results': len(items), "items": my_items}
 
-#         my_items = [i.to_dict() for i in items]
-#         return {'status': 'ok', 'total_results': len(items), "items": my_items}
-#     # else:
-#     #     return {
-#     #         'status': 'not ok',
-#     #         'code': 'Invalid Pin',
-#     #         'message': 'The pin number was incorrect, please try again.'
-#     #     }
-
-# @shop.route('/api/items/<int:item_id>')
-# def getSingleItemAPI(item_id):
-#     item = Items.query.get(item_id)
-#     if item:
-#         return {
-#             'status': 'ok',
-#             'total_results': 1,
-#             "item": item.to_dict()
-#             }
-#     else:
-#         return {
-#             'status': 'not ok',
-#             'message': f"A item with the id : {item_id} does not exist."
-#         }
-
-
-# @shop.route('/api/items/create', methods=["POST"])
-# @token_required
-# def createItemAPI(user):
-#     data = request.json # this is coming from POST request Body
-
-#     title = data['title']
-#     price = data['price']
-#     description = data['description']
-#     img_url = data['imgUrl']
-
-#     item = Items(title, price, description, img_url, user.id)
-#     item.save()
-
-#     return {
-#         'status': 'ok',
-#         'message': "Items was successfully created."
-#     }
-
-# @shop.route('/api/items/update', methods=["POST"])
-# @token_required
-# def updateItemAPI(user):
-#     data = request.json # this is coming from POST request Body
-
-#     item_id = data['itemId']
-
-#     item = Items.query.get(item_id)
-#     if item.user_id != user.id:
-#         return {
-#             'status': 'not ok',
-#             'message': "You cannot update another user's item!"
-#         }
-
-#     title = data['title']
-#     price = data['price']
-#     description = data['description']
-#     img_url = data['imgUrl']
-
-#     item.updateItemInfo(title, price, description, img_url)
-#     item.saveUpdates()
-
-#     return {
-#         'status': 'ok',
-#         'message': "Items was successfully updated."
-#     }
-
+@shop.route('/api/items/<int:items_id>')
+def getSingleItemsAPI(items_id):
+    item = Items.query.get(items_id)
+    if item:
+        return {
+            'status': 'ok',
+            'total_results': 1,
+            'item': item.to_dict()
+        }
+    else:
+        return {
+            'status': 'not ok',
+            'message': f"An item with the id: {items_id} does not exist."
+        }

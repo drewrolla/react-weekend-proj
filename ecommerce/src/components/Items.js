@@ -7,10 +7,11 @@ export default class Items extends Component {
         <div className="card" style={{width: "18rem"}}>
         <img src={i.img_url} className="card-img-top" alt="..."/>
         <div className="card-body">
-          <h5 className="card-title">{i.title}</h5>
-          <p>{i.price}</p>
+          <p className="card-title">{i.title}</p>
+          <p className='items'>${i.price}</p>
           <p>{i.author}</p>
-          <p className="card-text">{i.caption}</p>
+          <p className="items">{i.description}</p>
+          <button className='btn btn-primary'>Add to cart</button>
         </div>
       </div>
     )

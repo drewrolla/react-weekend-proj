@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export default class Signup extends Component {
     
     sendSignUpInfo = async (e)  => {
-        e.preventDefault();
+        e.preventDefault(); // prevents page from auto reloading
 
         if(e.target.password.value !== e.target.confirmPassword.value){
             return

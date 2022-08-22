@@ -20,9 +20,9 @@ export default class App extends Component {
 
   logMeIn = (user) => {
     this.setState({
-      user:user
+      user: user
     })
-  };
+  }
 
   render() {
     return (
@@ -31,12 +31,12 @@ export default class App extends Component {
           <Nav />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<Login logMeIn={this.logMeIn}/>} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/shop' element={<Shop />} />
-            <Route path='/singleitem' element={<SingleItem />} />
+            <Route path='/items/:itemsId' element={<SingleItem />} />
             <Route path='/items' element={<Items />} />
-            <Route path='/postitem' element={<PostItem />} />
+            <Route path='/items/create' element={<PostItem user={this.state.user} />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -21,7 +21,7 @@ export default class Shop extends Component {
     }
 
     showItems = () => {
-        return this.state.items.map(i=><Link key={i.id} to={`/items/${i.id}`}><Items itemInfo={i}/></Link>)
+        return this.state.items.map(i=><Link key={i.id} to={`/items/${i.id}`}><Items itemInfo={i} user={this.props.user} /></Link>)
     }
 
   render() {

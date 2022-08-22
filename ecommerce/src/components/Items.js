@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 export default class Items extends Component {
   addToCart = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:5000/api/cart/add', {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${this.props.user.token}`,
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({
-          title: this.props.itemInfo.title
-        })
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.props.user.token}`,
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        title: this.props.itemInfo.title
+      })
     });
     const data = await res.json();
     console.log(data)
+    this.props.getItems()
   }
-
 
   render() {
     const i = this.props.itemInfo
@@ -27,7 +28,8 @@ export default class Items extends Component {
           <p className="card-title">{i.title}</p>
           <p className='items'>${i.price}</p>
           <p className="items">{i.description}</p>
-          <button className='btn btn-primary' onClick={(e)=>{ this.addToCart(e) }} >Add to cart</button>
+          <Link key={i.id} to={`/items/${i.id}`} className='btn btn-secondary'>View</Link>
+          <button onClick={(e)=>{ this.addToCart(e) }} className='btn btn-primary'>Add</button>
         </div>
       </div>
     )

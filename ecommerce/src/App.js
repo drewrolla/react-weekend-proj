@@ -34,11 +34,13 @@ export default class App extends Component {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login logMeIn={this.logMeIn}/>} />
             <Route path='/signup' element={<Signup />} />
+
             <Route path='/shop' element={<Shop user={this.state.user} />} />
-            <Route path='/items/:itemsId' element={<SingleItem user={this.state.user} />} />
+            <Route path='/cart' element={<Cart user={this.state.user} />} />
+
             <Route path='/items' element={<Items user={this.state.user} />} />
             <Route path='/items/create' element={<PostItem user={this.state.user} />} />
-            <Route path='/cart' element={<Cart user={this.state.user} />} />
+            <Route path='/items/:itemsId' element={<SingleItem />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Items from '../components/Items';
 
 export default function SingleItem({ user }) {
@@ -21,10 +21,6 @@ export default function SingleItem({ user }) {
   return (
     <div>
         <Items itemInfo = {item}/>
-
-        <Link to={`/items/${itemsId}`}>
-        </Link>
-
     </div>
   )
 }

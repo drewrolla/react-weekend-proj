@@ -116,6 +116,7 @@ def getSingleItemsAPI(items_id):
         }
 
 @shop.route('/api/cart')
+@token_required
 def getCartItemsAPI(user):
     cart = Cart.query.filter_by(user_id=user.id).all()
     print(cart)
@@ -140,7 +141,7 @@ def getCartItemsAPI(user):
 def addToCartAPI(user):
     data = request.json
 
-    title = data['title']
+    title=data['title']
     items = Items.query.filter_by(title=title).first()
 
     incart = Cart(items.id, user.id)
@@ -153,6 +154,7 @@ def addToCartAPI(user):
     
 
 @shop.route('/api/cart/remove', methods=["POST"])
+@token_required
 def removeFromCartAPI(user):
     data = request.json
     title = data['title']
@@ -168,6 +170,7 @@ def removeFromCartAPI(user):
 
 
 @shop.route('/api/cart/removeall')
+@token_required
 def emptyCartAPI(user):
     incart = Cart.query.filter_by(user_id=user.id).all()
     for i in incart:

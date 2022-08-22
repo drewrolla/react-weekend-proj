@@ -6,7 +6,7 @@ export default class Nav extends Component {
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">Navbar</a>
+          <a className="navbar-brand" href="/">Hallo</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -21,24 +21,14 @@ export default class Nav extends Component {
               <li className="nav-item">
                 <Link className="nav-link" to="/signup">Sign Up</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/shop">Shop</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/cart">Cart</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/items/create">Post Item</Link>
-              </li>
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Dropdown
                 </a>
                 <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="/">Action</a></li>
-                  <li><a className="dropdown-item" href="/">Another action</a></li>
-                  <li><hr className="dropdown-divider"/></li>
-                  <li><a className="dropdown-item" href="/">Something else here</a></li>
+                  <li><Link className="dropdown-item" to="/items/create">Post Item</Link></li>
+                  <li><Link className="dropdown-item" to="/shop">Shop</Link></li>
+                  <li><Link className="dropdown-item" to="/cart">Cart</Link></li>
                 </ul>
               </li>
             </ul>

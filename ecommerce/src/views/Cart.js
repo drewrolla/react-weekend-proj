@@ -21,7 +21,19 @@ export default class Cart extends Component {
   }
 
   showCart = () => {
-    return this.state.cart.map(i=><Link key={i.id} to={`/items/${i.id}`}><Items itemInfo={i}/></Link>)
+    return this.state.cart.map(i=><Link key={i.id} to={`/items/${i.id}`}><Items itemInfo={i} user={this.props.user}/></Link>)
+  }
+
+  clearCart = async(e) => {
+    const res = await fetch('http://localhost:5000/api/cart/removeall', {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.props.user.token}`,
+        "Content-Type": 'application/json'
+      }
+    });
+    const data = await res.json();
+    console.log(data);
   }
 
   render() {

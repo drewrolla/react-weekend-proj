@@ -11,7 +11,9 @@ export default class InCart extends Component {
             body: JSON.stringify({
                 title: this.props.itemInfo.title
             })
-        })
+        });
+        const data = await res.json()
+        console.log(data)
     }
 
   render() {

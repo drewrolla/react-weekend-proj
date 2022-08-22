@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import Items from './components/Items';
 import Nav from './components/Nav';
 import Cart from './views/Cart';
 import Home from './views/Home';
@@ -38,7 +37,6 @@ export default class App extends Component {
             <Route path='/shop' element={<Shop user={this.state.user} />} />
             <Route path='/cart' element={<Cart user={this.state.user} />} />
 
-            <Route path='/items' element={<Items user={this.state.user} />} />
             <Route path='/items/create' element={<PostItem user={this.state.user} />} />
             <Route path='/items/:itemsId' element={<SingleItem />} />
           </Routes>

@@ -2,6 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 export default class Items extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message:false
+    }
+  }
+
+
+
   addToCart = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:5000/api/cart/add', {
@@ -16,7 +25,7 @@ export default class Items extends Component {
     });
     const data = await res.json();
     console.log(data)
-    this.props.getItems()
+    this.setState({message: true})
   }
 
   render() {

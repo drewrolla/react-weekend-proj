@@ -1,34 +1,27 @@
-import React, { Component } from 'react'
-import Items from '../components/Items';
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import Items from '../components/Items';
 
-export default class Shop extends Component {
-    constructor(){
-        super();
-        this.state={
-            items: []
-        }
+export default function Shop({addToCart}) {
+    const [items, setItems] = useState([])
+
+    const getItems = async () => {
+        const res = await fetch('http://localhost:5000/api/items');
+        const data = await res.json()
+        setItems(data.items)
     }
 
-    componentDidMount = async => {
-        this.getItems()
+    useEffect(()=>{
+        getItems()
+    }, [])
+
+    const showItems = () => {
+        return items.map(i=><Items key={i.id} addToCart={addToCart} item={i} />)
     }
 
-    getItems = async () => {
-        const res = await fetch('http://localhost:5000/api/items'); // Flask link for showing items
-        const data = await res.json();
-        this.setState({items: data.items})
-    }
-
-    showItems = () => {
-        return this.state.items.map(i=><Link key={i.id} to={`/items/${i.id}`}><Items itemInfo={i} user={this.props.user} /></Link>)
-    }
-
-  render() {
-    return (
-      <div className='items'>
-        {this.showItems()}
-      </div>
-    )
-  }
+  return (
+    <div className='row'>
+            {showItems()}
+    </div>
+  )
 }

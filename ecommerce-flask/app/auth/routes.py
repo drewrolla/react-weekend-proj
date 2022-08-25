@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .forms import LoginForm, UserCreationForm
 
+#import login funcitonality
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 
@@ -10,6 +11,7 @@ from app.models import User
 auth = Blueprint('auth', __name__, template_folder='authtemplates')
 
 from app.models import db
+
 
 
 @auth.route('/login', methods = ["GET","POST"])
@@ -28,20 +30,20 @@ def logMeIn():
             if user:
                 # compare passwords
                 if check_password_hash(user.password, password):
-                    flash('Login successful', 'success')
+                    flash('You have successfully logged in!', 'success')
                     login_user(user)
                     return redirect(url_for('index'))
                 else:
                     flash('Incorrect username/password combination.', 'danger')
             else:
-                flash('Account with username does not exist.', 'danger')
+                flash('User with that username does not exist.', 'danger')
 
     return render_template('login.html', form=form)
 
 @auth.route('/logout')
 @login_required
 def logMeOut():
-    flash("Goodbye", 'success')
+    flash("Successfully logged out.", 'success')
     logout_user()
     return redirect(url_for('auth.logMeIn'))
 
@@ -66,10 +68,11 @@ def signMeUp():
             flash("Successfully registered a new user", 'success')
             return redirect(url_for('auth.logMeIn'))
         else:
-            flash('Invalid input. Please try again.', 'danger')
+            flash('Invalid form. Please fill it out correctly.', 'danger')
     return render_template('signup.html', form = form)
 
-# API
+
+##### API ROUTES #########
 @auth.route('/api/signup', methods=["POST"])
 def apiSignMeUp():
     data = request.json
@@ -86,7 +89,7 @@ def apiSignMeUp():
     db.session.commit()
     return {
         'status': 'ok',
-        'message': f"User created {username}"
+        'message': f"Successfully created user {username}"
     }
 
 
@@ -98,7 +101,7 @@ def getToken():
     user = basic_auth.current_user()
     return {
                 'status': 'ok',
-                'message': "Login successful",
+                'message': "You have successfully logged in",
                 'data':  user.to_dict()
             }
 
@@ -117,8 +120,8 @@ def apiLogMeIn():
         if check_password_hash(user.password, password):
             return {
                 'status': 'ok',
-                'message': "Login successful",
-                'data': user.to_dict()
+                'message': "You have successfully logged in",
+                'data':  user.to_dict()
             }
         return {
             'status': 'not ok',

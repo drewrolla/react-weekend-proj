@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 export default class Nav extends Component {
+
+  getSubTotal = () => {
+    let total = 0
+    for (let item of this.props.cart){
+      total += parseFloat(item.price)
+    }
+    return total.toFixed(2)
+  }
+
   render() {
     return (
         <nav className="navbar navbar-expand-lg bg-light">
@@ -21,12 +30,14 @@ export default class Nav extends Component {
               <li className="nav-item">
                 <Link className="nav-link" to="/signup">Sign Up</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/cart">In Cart: {this.props.cart.length} | ${this.getSubTotal()}</Link>
+              </li>
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Dropdown
                 </a>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/items/create">Post Item</Link></li>
                   <li><Link className="dropdown-item" to="/shop">Shop</Link></li>
                   <li><Link className="dropdown-item" to="/cart">Cart</Link></li>
                 </ul>
